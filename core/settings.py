@@ -25,7 +25,10 @@ SECRET_KEY = 'django-insecure-gox5w@2&t29j9o=u=4#be*s0l@_$qc&_vwac4&^bvd3q3on2ov
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
+
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
 # Application definition
@@ -144,6 +147,8 @@ TEMPLATES = [
         },
     },
 ]
+
+
 JAZZMIN_SETTINGS = {
     "show_ui_builder": False,
     "site_title": "AI-Solutions Admin",
