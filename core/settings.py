@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-STATIC_URL = "/static/"
+STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
@@ -216,3 +216,6 @@ from pathlib import Path
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", ".onrender.com"]
+CSRF_TRUSTED_ORIGINS = ["https://*.onrender.com"]
