@@ -1,0 +1,82 @@
+{% extends "website/base.html" %}
+
+{% block title %}Thank You | AI-Solutions{% endblock %}
+
+{% block content %}
+<section class="relative min-h-screen flex items-center justify-center 
+                bg-[#FFF7ED] overflow-hidden
+                py-20 sm:py-24 md:py-0">
+
+
+  <!-- Decorative diagonals -->
+  <div class="absolute -top-40 -left-40 w-[500px] h-[500px] bg-[#A2574F] rotate-45 opacity-20"></div>
+  <div class="absolute -bottom-40 -right-40 w-[500px] h-[500px] bg-[#E6E6FA] rotate-45 opacity-30"></div>
+
+  <!-- MAIN CARD -->
+  <div class="relative z-10 bg-white rounded-2xl shadow-md
+              max-w-3xl w-full mx-6 px-10 py-14 text-center">
+
+    <!-- Check Icon -->
+    <div class="flex justify-center mb-6">
+      <div class="w-14 h-14 rounded-full bg-[#C8D6C5]
+                  flex items-center justify-center text-2xl text-[#2C2E39]">
+        ✓
+      </div>
+    </div>
+
+    <!-- Heading -->
+    <h1 class="text-3xl font-bold text-[#2C2E39] mb-4">
+      Thank you!
+    </h1>
+
+    <!-- Message -->
+    <p class="text-[#2C2E39]/80 max-w-xl mx-auto mb-10 leading-relaxed">
+      Your message has been successfully sent.  
+      Our team will review your enquiry and get back to you shortly.
+      In the meantime, feel free to explore more about our solutions and insights.
+    </p>
+
+    <!-- ACTION CARDS -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+      <!-- CONNECT -->
+      <div class="border rounded-xl p-6">
+        <h3 class="font-semibold text-[#2C2E39] mb-4">
+          Connect With Us
+        </h3>
+
+        <div class="flex justify-center gap-5 text-2xl text-[#2C2E39]/70">
+          <a href="#" class="hover:text-[#1877F2]" title="Facebook">
+            <i class="bi bi-facebook"></i>
+          </a>
+          <a href="#" class="hover:text-[#0A66C2]" title="LinkedIn">
+            <i class="bi bi-linkedin"></i>
+          </a>
+          <a href="#" class="hover:text-black" title="X / Twitter">
+            <i class="bi bi-twitter-x"></i>
+          </a>
+          <a href="#" class="hover:text-[#DB4437]" title="Google">
+            <i class="bi bi-google"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- VISIT WEBSITE -->
+      <div class="border rounded-xl p-6 flex flex-col justify-between">
+        <h3 class="font-semibold text-[#2C2E39] mb-4">
+          Visit Our Website
+        </h3>
+
+        <a href="{% url 'home' %}"
+           class="inline-block bg-[#A2574F] text-white
+                  px-6 py-3 rounded-lg text-sm font-medium
+                  hover:bg-[#8E4A44] transition">
+          Go to Home
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+{% endblock %}

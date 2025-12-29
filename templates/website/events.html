@@ -1,0 +1,1114 @@
+{% extends "website/base.html" %}
+{% block title %}Events & Activities | AI-Solutions{% endblock %}
+
+{% block content %}
+
+<style>
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+ .past-scroll::-webkit-scrollbar,
+  .modal-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .past-scroll,
+  .modal-scroll {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+.no-scrollbar::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    display: none !important;
+  }
+
+  /* Firefox */
+  .no-scrollbar {
+    scrollbar-width: none; /* Firefox */
+  }
+
+  /* IE/old Edge */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+  }
+ 
+  .scroll-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scroll-hide {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+
+/* Hide scrollbar but keep scrolling */
+.scroll-hide::-webkit-scrollbar {
+  display: none;
+}
+.scroll-hide {
+  scrollbar-width: none;
+}
+
+  #pastGrid {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#pastGrid::-webkit-scrollbar {
+  display: none;
+}
+
+  /* Hide scrollbar but keep scrolling */
+#upcomingGrid {
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE & Edge */
+  mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+}
+
+#upcomingGrid::-webkit-scrollbar {
+  display: none;                /* Chrome, Safari */
+}
+
+  /* ===== Modal animation ===== */
+  .modal-enter { opacity: 0; transform: translateY(8px) scale(.98); }
+  .modal-enter-active { opacity: 1; transform: translateY(0) scale(1); transition: all .25s ease; }
+
+  /* ===== Dropdown animation (filter) ===== */
+  .dd-closed { opacity: 0; transform: translateY(-6px) scale(.98); pointer-events: none; }
+  .dd-open   { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; transition: all .18s ease; }
+</style>
+
+<!-- ================= PAGE BACKGROUND (COOL + GLASS) ================= -->
+<section class="relative bg-[#FFF7ED]">
+  <!-- decorative background blobs -->
+  <div class="pointer-events-none absolute inset-0 overflow-hidden">
+    <div class="absolute -top-24 -left-24 h-72 w-72 rounded-full blur-3xl opacity-25"
+         style="background: radial-gradient(circle, #A2574F 0%, transparent 70%);"></div>
+    <div class="absolute top-32 -right-20 h-80 w-80 rounded-full blur-3xl opacity-20"
+         style="background: radial-gradient(circle, #E6E6FA 0%, transparent 70%);"></div>
+    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 h-96 w-[44rem] rounded-full blur-3xl opacity-15"
+         style="background: radial-gradient(circle, #A8C4EC 0%, transparent 70%);"></div>
+  </div>
+
+  <!-- ================= HERO (FULL WIDTH, NO GAP) ================= -->
+  <div
+    class="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen h-[260px] sm:h-[320px] md:h-[360px] bg-cover bg-center -mt-0.5"
+    style="background-image:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee');"
+  >
+    <div class="absolute inset-0 bg-black/50 flex items-center">
+      <div class="max-w-7xl mx-auto w-full px-6">
+        <div class="max-w-2xl">
+          <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3">
+            Events & Activities
+          </h1>
+          <p class="text-white/90 text-sm sm:text-base md:text-lg">
+            Discover our upcoming events, workshops, and industry engagements.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= GLASS CONTAINER ================= -->
+  <div class="max-w-7xl mx-auto px-6 py-10 sm:py-12 relative">
+    <div class="rounded-3xl border border-white/60 bg-[#F5F5F2]
+/70 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,.08)]">
+
+      <!-- ================= TABS + FILTER ROW ================= -->
+      <div class="px-5 sm:px-8 pt-6 sm:pt-8">
+        <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between border-b border-black/10 pb-4">
+
+          <!-- TABS -->
+          <div class="flex items-center gap-8">
+            <button
+              id="upcomingTab"
+              type="button"
+              class="font-semibold pb-2 leading-none border-b-2 border-[#2C2E39] text-[#2C2E39]"
+              onclick="showUpcoming()"
+            >
+              Upcoming Events
+            </button>
+
+            <button
+              id="pastTab"
+              type="button"
+              class="pb-2 leading-none text-[#2C2E39]/60 hover:text-[#2C2E39]"
+              onclick="showPast()"
+            >
+              Past Events
+            </button>
+          </div>
+
+          <!-- FILTER (Animated dropdown) -->
+          <div class="flex items-center justify-between gap-3 md:justify-end">
+            <div class="text-xs sm:text-sm text-[#2C2E39]/70">
+              Filter by type
+            </div>
+
+            <div class="relative">
+              <button
+                id="filterBtn"
+                type="button"
+                class="flex items-center gap-2 rounded-full px-4 py-2 text-sm
+                       bg-[#F5F5F2]
+/80 border border-black/10 shadow-sm
+                       hover:bg-[#F5F5F2]
+ transition"
+              >
+                <span id="filterLabel">All Types</span>
+                <i id="filterChevron" class="bi bi-chevron-down text-xs transition-transform"></i>
+              </button>
+
+              <div
+                id="filterMenu"
+                class="absolute right-0 mt-2 w-64 rounded-2xl border border-black/10 bg-[#F5F5F2]
+ shadow-lg overflow-hidden dd-closed z-40"
+              >
+                <button class="filter-option w-full text-left px-4 py-3 text-sm hover:bg-black/5"
+                        type="button" data-value="all">
+                  All Types
+                </button>
+                <button class="filter-option w-full text-left px-4 py-3 text-sm hover:bg-black/5"
+                        type="button" data-value="corporate">
+                  Corporate &amp; Businesses
+                </button>
+                <button class="filter-option w-full text-left px-4 py-3 text-sm hover:bg-black/5"
+                        type="button" data-value="modern">
+                  Modern &amp; Specialized
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= UPCOMING EVENTS ================= -->
+      <div id="upcomingEvents" class="px-5 sm:px-8 pb-8 sm:pb-10 pt-6">
+        <div class="flex items-center justify-between gap-4 mb-6">
+          <h2 class="text-xl sm:text-2xl font-semibold text-[#2C2E39]">
+            All Upcoming Events
+          </h2>
+
+          <div class="hidden sm:flex items-center gap-2 text-xs text-[#2C2E39]/70">
+            <span class="inline-block h-2 w-2 rounded-full bg-[#A2574F]"></span>
+            Click a card for details
+          </div>
+        </div>
+
+        <!-- Responsive: 1 col mobile, 2 sm, 3 md, 4 lg -->
+        <div id="upcomingGrid"
+     class="grid grid-cols-1 md:grid-cols-2 gap-6
+            max-h-[520px] overflow-y-auto pb-2
+            pr-2">
+
+
+          <!-- EVENT 1 (Newest-ish feel but static list) -->
+          <div
+            class="event-card group bg-[#F5F5F2]
+/90 rounded-2xl overflow-hidden border border-black/5 shadow-sm cursor-pointer
+                   hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
+            onclick="openEventModal(this)"
+            data-type="corporate"
+            data-type-label="Corporate & Businesses"
+            data-title="AI Solutions Launch"
+            data-date="Wed, May 24 · 3:00 PM"
+            data-location="Sunderland, UK"
+            data-host="AI-Solutions Team"
+            data-description="Official launch of our AI-driven software platform, showcasing secure architecture, scalable integrations, and real-world business outcomes."
+            data-image="https://media.istockphoto.com/id/2193842031/photo/colleagues-talking-about-ai.jpg?s=1024x1024&w=is&k=20&c=oIZpPKsJV8fovaoE8Jos5k6RcTsq-F5Ea_NdyoPUcGY="
+          >
+            <div class="relative">
+              <img src="https://media.istockphoto.com/id/2193842031/photo/colleagues-talking-about-ai.jpg?s=1024x1024&w=is&k=20&c=oIZpPKsJV8fovaoE8Jos5k6RcTsq-F5Ea_NdyoPUcGY="
+                   class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300" alt="">
+              <div class="absolute top-3 left-3">
+                <span class="text-[11px] px-2 py-1 rounded-full bg-[#F5F5F2]
+/90 border border-black/10">
+                  Corporate &amp; Businesses
+                </span>
+              </div>
+            </div>
+
+            <div class="p-4">
+              <div class="flex items-start gap-4 mb-2">
+                <div class="text-center">
+                  <p class="text-xs text-[#2C2E39]/60">MAY</p>
+                  <p class="text-2xl font-bold text-[#2C2E39] leading-none">24</p>
+                </div>
+                <div class="min-w-0">
+                  <h3 class="font-semibold text-[#2C2E39] truncate">AI Solutions Launch</h3>
+                  <p class="text-sm text-[#2C2E39]/70 truncate">Wed, May 24 · 3:00 PM</p>
+                </div>
+              </div>
+              <p class="text-sm text-[#2C2E39]/70 line-clamp-2">
+                Official launch of our AI-driven software platform.
+              </p>
+            </div>
+          </div>
+
+          <!-- EVENT 2 -->
+          <div
+            class="event-card group bg-[#F5F5F2]
+/90 rounded-2xl overflow-hidden border border-black/5 shadow-sm cursor-pointer
+                   hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
+            onclick="openEventModal(this)"
+            data-type="modern"
+            data-type-label="Modern & Specialized"
+            data-title="Cybersecurity Awareness Seminar"
+            data-date="Mon, Sep 16 · 1:00 PM"
+            data-location="Newcastle, UK"
+            data-host="Security Operations Team"
+            data-description="A practical seminar covering modern threat models, secure authentication, and data protection strategies for organisations adopting cloud and web-based systems."
+            data-image="https://images.unsplash.com/photo-1550751827-4bd374c3f58b"
+          >
+            <div class="relative">
+              <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b"
+                   class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300" alt="">
+              <div class="absolute top-3 left-3">
+                <span class="text-[11px] px-2 py-1 rounded-full bg-[#F5F5F2]
+/90 border border-black/10">
+                  Modern &amp; Specialized
+                </span>
+              </div>
+            </div>
+
+            <div class="p-4">
+              <div class="flex items-start gap-4 mb-2">
+                <div class="text-center">
+                  <p class="text-xs text-[#2C2E39]/60">SEP</p>
+                  <p class="text-2xl font-bold text-[#2C2E39] leading-none">16</p>
+                </div>
+                <div class="min-w-0">
+                  <h3 class="font-semibold text-[#2C2E39] truncate">Cybersecurity Awareness Seminar</h3>
+                  <p class="text-sm text-[#2C2E39]/70 truncate">Mon, Sep 16 · 1:00 PM</p>
+                </div>
+              </div>
+              <p class="text-sm text-[#2C2E39]/70 line-clamp-2">
+                Raising awareness of cybersecurity risks and best practices.
+              </p>
+            </div>
+          </div>
+
+          <!-- EVENT 3 -->
+          <div
+            class="event-card group bg-[#F5F5F2]
+/90 rounded-2xl overflow-hidden border border-black/5 shadow-sm cursor-pointer
+                   hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
+            onclick="openEventModal(this)"
+            data-type="corporate"
+            data-type-label="Corporate & Businesses"
+            data-title="Cloud Infrastructure Meetup"
+            data-date="Thu, Oct 10 · 4:00 PM"
+            data-location="Manchester, UK"
+            data-host="Cloud Engineering Team"
+            data-description="A meetup exploring scalable cloud infrastructure, integration patterns, and reliability approaches that support modern operations and customer enquiries."
+            data-image="https://images.unsplash.com/photo-1498050108023-c5249f4df085"
+          >
+            <div class="relative">
+              <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085"
+                   class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300" alt="">
+              <div class="absolute top-3 left-3">
+                <span class="text-[11px] px-2 py-1 rounded-full bg-[#F5F5F2]
+/90 border border-black/10">
+                  Corporate &amp; Businesses
+                </span>
+              </div>
+            </div>
+
+            <div class="p-4">
+              <div class="flex items-start gap-4 mb-2">
+                <div class="text-center">
+                  <p class="text-xs text-[#2C2E39]/60">OCT</p>
+                  <p class="text-2xl font-bold text-[#2C2E39] leading-none">10</p>
+                </div>
+                <div class="min-w-0">
+                  <h3 class="font-semibold text-[#2C2E39] truncate">Cloud Infrastructure Meetup</h3>
+                  <p class="text-sm text-[#2C2E39]/70 truncate">Thu, Oct 10 · 4:00 PM</p>
+                </div>
+              </div>
+              <p class="text-sm text-[#2C2E39]/70 line-clamp-2">
+                Exploring modern cloud platforms and infrastructure tools.
+              </p>
+            </div>
+          </div>
+
+          <!-- EVENT 4 -->
+          <div
+            class="event-card group bg-[#F5F5F2]
+/90 rounded-2xl overflow-hidden border border-black/5 shadow-sm cursor-pointer
+                   hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
+            onclick="openEventModal(this)"
+            data-type="modern"
+            data-type-label="Modern & Specialized"
+            data-title="Software Testing Workshop"
+            data-date="Tue, Nov 5 · 10:00 AM"
+            data-location="Leeds, UK"
+            data-host="QA Engineering Team"
+            data-description="Hands-on workshop covering automated and manual testing techniques, quality metrics, and release confidence practices for web applications."
+            data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRomVyIuDQ8S2uBPa7mYXRTrxYo33n4fXtzQ&s"
+          >
+            <div class="relative">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRomVyIuDQ8S2uBPa7mYXRTrxYo33n4fXtzQ&s"
+                   class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300" alt="">
+              <div class="absolute top-3 left-3">
+                <span class="text-[11px] px-2 py-1 rounded-full bg-[#F5F5F2]
+/90 border border-black/10">
+                  Modern &amp; Specialized
+                </span>
+              </div>
+            </div>
+
+            <div class="p-4">
+              <div class="flex items-start gap-4 mb-2">
+                <div class="text-center">
+                  <p class="text-xs text-[#2C2E39]/60">NOV</p>
+                  <p class="text-2xl font-bold text-[#2C2E39] leading-none">5</p>
+                </div>
+                <div class="min-w-0">
+                  <h3 class="font-semibold text-[#2C2E39] truncate">Software Testing Workshop</h3>
+                  <p class="text-sm text-[#2C2E39]/70 truncate">Tue, Nov 5 · 10:00 AM</p>
+                </div>
+              </div>
+              <p class="text-sm text-[#2C2E39]/70 line-clamp-2">
+                Improving software quality through structured testing approaches.
+              </p>
+            </div>
+          </div>
+          <div
+  class="event-card bg-[#F5F5F2]
+ rounded-lg shadow-sm overflow-hidden cursor-pointer group"
+  onclick="openEventModal(this)"
+  data-type="modern"
+  data-type-label="Modern & Specialized"
+  data-title="Modern API Architecture Deep Dive"
+  data-date="Tue, Jul 9 · 2:00 PM"
+  data-location="Remote / Online"
+  data-host="Platform Engineering Group"
+  data-description="A technical deep dive into API-first design, scalability patterns, and secure service communication."
+  data-image="https://images.unsplash.com/photo-1518770660439-4636190af475"
+>
+
+  <!-- Image + Badge -->
+  <div class="relative">
+    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475"
+         class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300"
+         alt="">
+    <div class="absolute top-3 left-3">
+      <span class="text-[11px] px-2 py-1 rounded-full bg-[#F5F5F2]
+/90 border border-black/10">
+        Modern &amp; Specialized
+      </span>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="p-4">
+    <div class="flex items-start gap-4 mb-2">
+      <div class="text-center">
+        <p class="text-sm text-gray-500">JUL</p>
+        <p class="text-2xl font-bold">9</p>
+      </div>
+      <div>
+        <h3 class="font-semibold">Modern API Architecture Deep Dive</h3>
+        <p class="text-sm text-gray-600">Tue, Jul 9 · 2:00 PM</p>
+      </div>
+    </div>
+    <p class="text-sm text-gray-600">
+      Best practices for API-first systems and scalable backend architectures.
+    </p>
+  </div>
+</div>
+
+<div
+  class="event-card bg-[#F5F5F2]
+ rounded-lg shadow-sm overflow-hidden cursor-pointer group"
+  onclick="openEventModal(this)"
+  data-type="corporate"
+  data-type-label="Corporate & Businesses"
+  data-title="Enterprise Digital Transformation Forum"
+  data-date="Thu, Jun 13 · 9:30 AM"
+  data-location="London, UK"
+  data-host="AI-Solutions Enterprise Team"
+  data-description="A corporate-focused forum discussing large-scale digital transformation and enterprise AI adoption."
+  data-image="https://images.unsplash.com/photo-1521737604893-d14cc237f11d"
+>
+
+  <!-- Image + Badge -->
+  <div class="relative">
+    <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d"
+         class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300"
+         alt="">
+    <div class="absolute top-3 left-3">
+      <span class="text-[11px] px-2 py-1 rounded-full bg-[#F5F5F2]
+/90 border border-black/10">
+        Corporate &amp; Businesses
+      </span>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="p-4">
+    <div class="flex items-start gap-4 mb-2">
+      <div class="text-center">
+        <p class="text-sm text-gray-500">JUN</p>
+        <p class="text-2xl font-bold">13</p>
+      </div>
+      <div>
+        <h3 class="font-semibold">Enterprise Digital Transformation Forum</h3>
+        <p class="text-sm text-gray-600">Thu, Jun 13 · 9:30 AM</p>
+      </div>
+    </div>
+    <p class="text-sm text-gray-600">
+      Strategic insights into enterprise system modernisation and digital growth.
+    </p>
+  </div>
+</div>
+
+
+        </div>
+      </div>
+
+      <!-- ================= PAST EVENTS GALLERY ================= -->
+      <!-- ================= PAST EVENTS ================= -->
+<!-- ================= PAST EVENTS ================= -->
+<div id="pastEvents" class="hidden mt-16 pb-32">
+
+  <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+
+    <!-- HEADER + FILTER -->
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-2xl font-semibold">Past Events Gallery</h2>
+
+      <div class="relative">
+  <!-- BUTTON -->
+  <button id="pastFilterBtn"
+          type="button"
+          class="flex items-center justify-between gap-2
+                 px-3 py-2 text-sm rounded-full border
+                 bg-[#F5F5F2]
+ hover:bg-gray-50 transition
+                 max-w-[140px] sm:max-w-none">
+    <span id="pastFilterLabel" class="truncate">All Types</span>
+    <svg class="w-4 h-4 transition-transform"
+         id="pastChevron"
+         fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M19 9l-7 7-7-7"/>
+    </svg>
+  </button>
+
+  <!-- DROPDOWN -->
+  <div id="pastFilterMenu"
+       class="absolute right-0 mt-2 w-44
+              bg-[#F5F5F2]
+ rounded-xl shadow-lg border
+              opacity-0 scale-95 translate-y-2
+              pointer-events-none
+              transition-all duration-200 z-50">
+
+    <button class="past-filter-option px-4 py-2 text-sm w-full text-left hover:bg-gray-100"
+            data-value="all">
+      All Types
+    </button>
+
+    <button class="past-filter-option px-4 py-2 text-sm w-full text-left hover:bg-gray-100"
+            data-value="Corporate & Businesses">
+      Corporate & Businesses
+    </button>
+
+    <button class="past-filter-option px-4 py-2 text-sm w-full text-left hover:bg-gray-100"
+            data-value="Modern & Specialized">
+      Modern & Specialized
+    </button>
+
+  </div>
+</div>
+
+       
+      </select>
+    </div>
+
+    <!-- SCROLLABLE GRID -->
+    <div id="pastGrid"
+         class="past-scroll grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4
+                max-h-[420px] overflow-y-auto pr-2">
+
+      <!-- CARD 1 (CLICKABLE) -->
+      <div class="past-card relative group cursor-pointer"
+           data-type="Corporate & Businesses"
+           onclick="openPastEventModal(this)"
+           data-title="AI Solutions Launch 2024"
+           data-date="May 2024"
+           data-location="Sunderland, UK"
+           data-host="AI-Solutions Team"
+           data-description="Highlights from our 2024 AI Solutions launch event."
+           data-images='[
+             "https://images.unsplash.com/photo-1528605248644-14dd04022da1",
+             "https://images.unsplash.com/photo-1504384308090-c894fdcc538d",
+             "https://images.unsplash.com/photo-1556761175-4b46a572b786",
+             "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
+             "https://images.unsplash.com/photo-1581092334504-3c6e58a5f17b",
+             "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4",
+             "https://images.unsplash.com/photo-1550751827-4bd374c3f58b",
+             "https://images.unsplash.com/photo-1519389950473-47ba0277781c"
+           ]'>
+        <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1"
+             class="w-full h-40 object-cover rounded-lg transition-transform group-hover:scale-105">
+        <span class="absolute top-3 left-3 text-[11px] px-2 py-1 rounded-full bg-[#F5F5F2]
+/90">
+          Corporate & Businesses
+        </span>
+      </div>
+
+      <!-- CARD 2 (CLICKABLE) -->
+      <div class="past-card relative group cursor-pointer"
+           data-type="Modern & Specialized"
+           onclick="openPastEventModal(this)"
+           data-title="Modern Systems Workshop"
+           data-date="August 2024"
+           data-location="Manchester, UK"
+           data-host="Engineering Team"
+           data-description="Hands-on workshop focused on modern system architecture."
+           data-images='[
+             "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
+             "https://images.unsplash.com/photo-1581092334504-3c6e58a5f17b",
+             "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4",
+             "https://images.unsplash.com/photo-1504384308090-c894fdcc538d",
+             "https://images.unsplash.com/photo-1556761175-4b46a572b786",
+             "https://images.unsplash.com/photo-1528605248644-14dd04022da1",
+             "https://images.unsplash.com/photo-1550751827-4bd374c3f58b",
+             "https://images.unsplash.com/photo-1519389950473-47ba0277781c"
+           ]'>
+        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085"
+             class="w-full h-40 object-cover rounded-lg transition-transform group-hover:scale-105">
+        <span class="absolute top-3 left-3 text-[11px] px-2 py-1 rounded-full bg-[#F5F5F2]
+/90">
+          Modern & Specialized
+        </span>
+      </div>
+
+      <!-- STATIC CARDS -->
+      <!-- STATIC CARD 1 -->
+<div class="past-card relative group" data-type="Corporate & Businesses">
+  <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786"
+       class="w-full h-40 object-cover rounded-lg
+              transition-transform duration-300
+              group-hover:scale-105">
+
+  <span class="absolute top-3 left-3 text-[11px] px-2 py-1 rounded-full
+               bg-[#F5F5F2]
+/90 border border-black/10">
+    Corporate & Businesses
+  </span>
+</div>
+
+<!-- STATIC CARD 2 -->
+<div class="past-card relative group" data-type="Modern & Specialized">
+  <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4"
+       class="w-full h-40 object-cover rounded-lg
+              transition-transform duration-300
+              group-hover:scale-105">
+
+  <span class="absolute top-3 left-3 text-[11px] px-2 py-1 rounded-full
+               bg-[#F5F5F2]
+/90 border border-black/10">
+    Modern & Specialized
+  </span>
+</div>
+
+<!-- STATIC CARD 3 -->
+<div class="past-card relative group" data-type="Corporate & Businesses">
+  <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1"
+       class="w-full h-40 object-cover rounded-lg
+              transition-transform duration-300
+              group-hover:scale-105">
+
+  <span class="absolute top-3 left-3 text-[11px] px-2 py-1 rounded-full
+               bg-[#F5F5F2]
+/90 border border-black/10">
+    Corporate & Businesses
+  </span>
+</div>
+
+<!-- STATIC CARD 4 -->
+<div class="past-card relative group" data-type="Modern & Specialized">
+  <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085"
+       class="w-full h-40 object-cover rounded-lg
+              transition-transform duration-300
+              group-hover:scale-105">
+
+  <span class="absolute top-3 left-3 text-[11px] px-2 py-1 rounded-full
+               bg-[#F5F5F2]
+/90 border border-black/10">
+    Modern & Specialized
+  </span>
+</div>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+  </div>
+</section>
+
+<!-- ================= EVENT DETAILS MODAL ================= -->
+<div id="eventModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 px-4">
+  <div class="w-full max-w-2xl rounded-2xl overflow-hidden relative bg-[#F5F5F2]
+ shadow-2xl">
+
+    <!-- Close -->
+    <button onclick="closeEventModal()"
+            class="absolute top-3 right-3 h-9 w-9 rounded-full bg-[#F5F5F2]
+/90 border border-black/10
+                   grid place-items-center text-xl leading-none z-10 hover:bg-[#F5F5F2]
+">
+      &times;
+    </button>
+
+    <!-- Image hero -->
+    <div id="modalImage" class="h-56 sm:h-64 bg-cover bg-center relative flex items-center justify-center">
+      <div class="absolute inset-0 bg-black/45"></div>
+
+      <div class="relative text-center px-4">
+        <div class="inline-flex items-center justify-center gap-2 mb-3">
+          <span id="modalType"
+                class="text-[11px] sm:text-xs px-3 py-1 rounded-full bg-[#F5F5F2]
+/85 border border-black/10 text-[#2C2E39]">
+          </span>
+        </div>
+
+        <h2 id="modalTitle" class="text-2xl sm:text-3xl font-bold text-white leading-tight"></h2>
+      </div>
+    </div>
+
+    <div class="p-6 space-y-3">
+      <p class="text-sm text-[#2C2E39]/80"><strong class="text-[#2C2E39]">Date:</strong> <span id="modalDate"></span></p>
+      <p class="text-sm text-[#2C2E39]/80"><strong class="text-[#2C2E39]">Location:</strong> <span id="modalLocation"></span></p>
+      <p class="text-sm text-[#2C2E39]/80"><strong class="text-[#2C2E39]">Host:</strong> <span id="modalHost"></span></p>
+      <p id="modalDescription" class="text-sm text-[#2C2E39]/80 leading-relaxed"></p>
+    </div>
+
+    <div class="border-t border-black/10 p-6">
+      <h3 class="font-semibold text-[#2C2E39] mb-2">Contact Information</h3>
+      <p class="text-sm text-[#2C2E39]/80">📞 +44 7500 123456</p>
+      <p class="text-sm text-[#2C2E39]/80">✉️ contact@ai-solutions.com</p>
+
+      <div class="flex gap-5 mt-3 text-xl text-[#2C2E39]/70">
+        <a href="#" class="hover:text-[#2C2E39]" title="Facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="hover:text-[#2C2E39]" title="Twitter / X"><i class="bi bi-twitter-x"></i></a>
+        <a href="#" class="hover:text-[#2C2E39]" title="Instagram"><i class="bi bi-instagram"></i></a>
+        <a href="#" class="hover:text-[#2C2E39]" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= PAST EVENT MODAL ================= -->
+<div id="pastEventModal"
+     class="fixed inset-0 h-screen w-screen z-[9999] hidden
+            flex items-center justify-center
+            bg-black/70 backdrop-blur-sm px-4">
+
+  <div class="bg-[#F5F5F2]
+ rounded-3xl w-full max-w-4xl
+              max-h-[90vh] overflow-hidden relative">
+
+    <button onclick="closePastEventModal()"
+            class="absolute top-4 right-4 h-9 w-9 rounded-full bg-[#F5F5F2]
+ shadow
+                   flex items-center justify-center text-xl z-10">
+      &times;
+    </button>
+
+    <div class="overflow-y-auto max-h-[90vh] scrollbar-hide">
+
+      <div id="pastModalHero"
+           class="h-56 bg-cover bg-center flex items-center justify-center text-white">
+        <div class="bg-black/40 px-6 py-3 rounded-lg">
+          <h2 id="pastModalTitle" class="text-xl sm:text-2xl font-bold"></h2>
+        </div>
+      </div>
+
+      <div class="p-6 space-y-2">
+        <p><strong>Date:</strong> <span id="pastModalDate"></span></p>
+        <p><strong>Location:</strong> <span id="pastModalLocation"></span></p>
+        <p><strong>Host:</strong> <span id="pastModalHost"></span></p>
+        <p id="pastModalDescription" class="text-gray-700"></p>
+      </div>
+
+      <div class="px-6 pb-6">
+        <h3 class="font-semibold mb-4">Event Gallery</h3>
+        <div id="pastModalGallery"
+             class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ================= IMAGE LIGHTBOX ================= -->
+<div id="imageLightbox"
+     class="fixed inset-0 z-[10000] hidden
+            flex items-center justify-center
+            bg-black/90">
+
+  <!-- Close -->
+  <button onclick="closeLightbox()"
+          class="absolute top-5 right-6 text-white text-3xl font-bold">
+    &times;
+  </button>
+
+  <!-- Prev -->
+  <button onclick="prevImage()"
+          class="absolute left-6 text-white text-3xl font-bold">
+    ‹
+  </button>
+
+  <!-- Image -->
+  <img id="lightboxImage"
+       class="max-h-[90vh] max-w-[90vw] rounded-xl object-contain">
+
+  <!-- Next -->
+  <button onclick="nextImage()"
+          class="absolute right-6 text-white text-3xl font-bold">
+    ›
+  </button>
+</div>
+
+
+<!-- IMAGE VIEWER -->
+<div id="imageViewer" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 px-4">
+  <img id="viewerImage" class="max-h-[90vh] max-w-[90vw] rounded-2xl shadow-2xl">
+  <button onclick="closeImageViewer()"
+          class="absolute top-6 right-6 text-white text-3xl font-bold">
+    &times;
+  </button>
+</div>
+
+<script>
+  /* ================= TAB TOGGLE ================= */
+  const upcomingTab = document.getElementById("upcomingTab");
+  const pastTab = document.getElementById("pastTab");
+  const upcomingEvents = document.getElementById("upcomingEvents");
+  const pastEvents = document.getElementById("pastEvents");
+
+  function resetTabs() {
+    upcomingTab.classList.remove("border-[#2C2E39]", "border-b-2", "text-[#2C2E39]");
+    pastTab.classList.remove("border-[#2C2E39]", "border-b-2", "text-[#2C2E39]");
+
+    upcomingTab.classList.add("text-[#2C2E39]/60");
+    pastTab.classList.add("text-[#2C2E39]/60");
+  }
+
+  function showUpcoming() {
+    resetTabs();
+    upcomingEvents.classList.remove("hidden");
+    pastEvents.classList.add("hidden");
+
+    upcomingTab.classList.remove("text-[#2C2E39]/60");
+    upcomingTab.classList.add("border-b-2", "border-[#2C2E39]", "text-[#2C2E39]");
+  }
+
+  function showPast() {
+    resetTabs();
+    pastEvents.classList.remove("hidden");
+    upcomingEvents.classList.add("hidden");
+
+    pastTab.classList.remove("text-[#2C2E39]/60");
+    pastTab.classList.add("border-b-2", "border-[#2C2E39]", "text-[#2C2E39]");
+  }
+
+  // Default
+  showUpcoming();
+
+  /* ================= FILTER DROPDOWN (ANIMATED) ================= */
+  const filterBtn = document.getElementById("filterBtn");
+  const filterMenu = document.getElementById("filterMenu");
+  const filterLabel = document.getElementById("filterLabel");
+  const filterChevron = document.getElementById("filterChevron");
+  const filterOptions = document.querySelectorAll(".filter-option");
+  const eventCards = Array.from(document.querySelectorAll(".event-card"));
+
+  let currentType = "all";
+
+  function openFilter() {
+    filterMenu.classList.remove("dd-closed");
+    filterMenu.classList.add("dd-open");
+    filterChevron.classList.add("rotate-180");
+  }
+  function closeFilter() {
+    filterMenu.classList.remove("dd-open");
+    filterMenu.classList.add("dd-closed");
+    filterChevron.classList.remove("rotate-180");
+  }
+  function isFilterOpen() {
+    return filterMenu.classList.contains("dd-open");
+  }
+
+  filterBtn?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    isFilterOpen() ? closeFilter() : openFilter();
+  });
+
+  document.addEventListener("click", () => closeFilter());
+
+  filterOptions.forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      currentType = btn.dataset.value;
+
+      if (currentType === "all") filterLabel.textContent = "All Types";
+      if (currentType === "corporate") filterLabel.textContent = "Corporate & Businesses";
+      if (currentType === "modern") filterLabel.textContent = "Modern & Specialized";
+
+      closeFilter();
+      applyEventFilter();
+    });
+  });
+  
+
+  function applyEventFilter() {
+    eventCards.forEach(card => {
+      const t = card.dataset.type;
+      const show = (currentType === "all") || (t === currentType);
+      card.classList.toggle("hidden", !show);
+    });
+  }
+
+  /* ================= UPCOMING EVENT MODAL ================= */
+  window.openEventModal = function(card) {
+    document.getElementById("modalTitle").innerText = card.dataset.title;
+    document.getElementById("modalDate").innerText = card.dataset.date;
+    document.getElementById("modalLocation").innerText = card.dataset.location;
+    document.getElementById("modalHost").innerText = card.dataset.host;
+    document.getElementById("modalDescription").innerText = card.dataset.description;
+
+    const typeLabel = card.dataset.typeLabel || "Event";
+    document.getElementById("modalType").innerText = typeLabel;
+
+    const imageDiv = document.getElementById("modalImage");
+    imageDiv.style.backgroundImage = `url('${card.dataset.image}')`;
+
+    const modal = document.getElementById("eventModal");
+    modal.classList.remove("hidden");
+    modal.classList.add("flex", "modal-enter");
+
+    requestAnimationFrame(() => modal.classList.add("modal-enter-active"));
+  };
+
+  window.closeEventModal = function() {
+    const modal = document.getElementById("eventModal");
+    modal.classList.remove("modal-enter-active");
+    setTimeout(() => {
+      modal.classList.add("hidden");
+      modal.classList.remove("flex", "modal-enter");
+    }, 250);
+  };
+
+  /* ================= PAST EVENT MODAL ================= */
+  window.openPastEventModal = function(img) {
+    const images = JSON.parse(img.dataset.images);
+
+    document.getElementById("pastModalTitle").innerText = img.dataset.title;
+    document.getElementById("pastModalDate").innerText = img.dataset.date;
+    document.getElementById("pastModalLocation").innerText = img.dataset.location;
+    document.getElementById("pastModalHost").innerText = img.dataset.host;
+    document.getElementById("pastModalDescription").innerText = img.dataset.description;
+
+    const hero = document.getElementById("pastModalHero");
+    hero.style.backgroundImage = `url('${images[0]}')`;
+
+    const gallery = document.getElementById("pastModalGallery");
+    gallery.innerHTML = "";
+
+    images.forEach((src, index) => {
+  const thumb = document.createElement("img");
+  thumb.src = src;
+  thumb.className =
+    "w-full h-32 object-cover rounded-lg cursor-pointer hover:opacity-90 transition";
+
+  // ✅ THIS is the key change
+  thumb.onclick = () => openLightbox(images, index);
+
+  gallery.appendChild(thumb);
+});
+
+
+    const modal = document.getElementById("pastEventModal");
+    modal.classList.remove("hidden");
+    modal.classList.add("flex", "modal-enter");
+    requestAnimationFrame(() => modal.classList.add("modal-enter-active"));
+  }
+
+  window.closePastEventModal = function() {
+    const modal = document.getElementById("pastEventModal");
+    modal.classList.remove("modal-enter-active");
+    setTimeout(() => {
+      modal.classList.add("hidden");
+      modal.classList.remove("flex", "modal-enter");
+    }, 250);
+  };
+let lightboxImages = [];
+  let currentIndex = 0;
+
+  function openLightbox(images, index) {
+    lightboxImages = images;
+    currentIndex = index;
+
+    document.getElementById("lightboxImage").src = images[index];
+    document.getElementById("imageLightbox").classList.remove("hidden");
+  }
+
+  function closeLightbox() {
+    document.getElementById("imageLightbox").classList.add("hidden");
+  }
+
+  function nextImage() {
+    currentIndex = (currentIndex + 1) % lightboxImages.length;
+    document.getElementById("lightboxImage").src = lightboxImages[currentIndex];
+  }
+
+  function prevImage() {
+    currentIndex =
+      (currentIndex - 1 + lightboxImages.length) % lightboxImages.length;
+    document.getElementById("lightboxImage").src = lightboxImages[currentIndex];
+  }
+  /* ================= IMAGE VIEWER ================= */
+  window.openImageViewer = function(src) {
+    document.getElementById("viewerImage").src = src;
+    const viewer = document.getElementById("imageViewer");
+    viewer.classList.remove("hidden");
+    viewer.classList.add("flex", "modal-enter");
+    requestAnimationFrame(() => viewer.classList.add("modal-enter-active"));
+  };
+
+  window.closeImageViewer = function() {
+    const viewer = document.getElementById("imageViewer");
+    viewer.classList.remove("modal-enter-active");
+    setTimeout(() => {
+      viewer.classList.add("hidden");
+      viewer.classList.remove("flex", "modal-enter");
+    }, 250);
+  };
+
+function filterEvents() {
+  const filter = document.getElementById("eventFilter").value;
+
+  // UPCOMING
+  document.querySelectorAll("#upcomingEvents [data-type]").forEach(card => {
+    if (filter === "all" || card.dataset.type === filter) {
+      card.classList.remove("hidden");
+ ;   } else {
+      card.classList.add("hidden");
+    }
+  });
+
+  // PAST
+  document.querySelectorAll("#pastEvents .past-card").forEach(card => {
+    if (filter === "all" || card.dataset.type === filter) {
+      card.classList.remove("hidden");
+    } else {
+      card.classList.add("hidden");
+    }
+  });
+}
+
+function filterPastEvents() {
+  const type = document.getElementById("pastFilter").value;
+  document.querySelectorAll("#pastGrid .past-card").forEach(card => {
+    card.style.display =
+      type === "all" || card.dataset.type === type ? "block" : "none";
+  });
+}
+
+function openPastEventModal(card) {
+  document.getElementById("pastModalTitle").innerText = card.dataset.title;
+  document.getElementById("pastModalDate").innerText = card.dataset.date;
+  document.getElementById("pastModalLocation").innerText = card.dataset.location;
+  document.getElementById("pastModalHost").innerText = card.dataset.host;
+  document.getElementById("pastModalDescription").innerText = card.dataset.description;
+
+  document.getElementById("pastModalHero").style.backgroundImage =
+    `url('${JSON.parse(card.dataset.images)[0]}')`;
+
+  const gallery = document.getElementById("pastModalGallery");
+  gallery.innerHTML = "";
+  JSON.parse(card.dataset.images).forEach(src => {
+    const img = document.createElement("img");
+    img.src = src;
+    img.className = "w-full h-32 object-cover rounded-lg";
+    gallery.appendChild(img);
+  });
+
+  document.getElementById("pastEventModal").classList.remove("hidden");
+}
+
+function closePastEventModal() {
+  document.getElementById("pastEventModal").classList.add("hidden");
+}
+
+const pastFilterBtn = document.getElementById("pastFilterBtn");
+  const pastFilterMenu = document.getElementById("pastFilterMenu");
+  const pastFilterLabel = document.getElementById("pastFilterLabel");
+  const pastChevron = document.getElementById("pastChevron");
+  const pastOptions = document.querySelectorAll(".past-filter-option");
+  const pastCards = document.querySelectorAll(".past-card");
+
+  function togglePastFilter() {
+    const open = !pastFilterMenu.classList.contains("pointer-events-none");
+
+    if (open) {
+      closePastFilter();
+    } else {
+      openPastFilter();
+    }
+  }
+
+  function openPastFilter() {
+    pastFilterMenu.classList.remove("opacity-0", "scale-95", "translate-y-2", "pointer-events-none");
+    pastChevron.classList.add("rotate-180");
+  }
+
+  function closePastFilter() {
+    pastFilterMenu.classList.add("opacity-0", "scale-95", "translate-y-2", "pointer-events-none");
+    pastChevron.classList.remove("rotate-180");
+  }
+
+  pastFilterBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    togglePastFilter();
+  });
+
+  pastOptions.forEach(option => {
+    option.addEventListener("click", () => {
+      const value = option.dataset.value;
+      pastFilterLabel.textContent = option.textContent;
+      filterPastEvents(value);
+      closePastFilter();
+    });
+  });
+
+  document.addEventListener("click", closePastFilter);
+
+  function filterPastEvents(type) {
+    pastCards.forEach(card => {
+      if (type === "all" || card.dataset.type === type) {
+        card.classList.remove("hidden");
+      } else {
+        card.classList.add("hidden");
+      }
+    });
+  }
+</script>
+
+{% endblock %}

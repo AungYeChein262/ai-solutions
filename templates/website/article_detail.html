@@ -1,0 +1,74 @@
+{% extends "website/base.html" %}
+{% block title %}{{ article.title }} | AI-Solutions{% endblock %}
+
+{% block content %}
+<section class="bg-[#F5F5F2] py-16">
+  <div class="max-w-5xl mx-auto px-6">
+
+    <!-- Article Header -->
+    <header class="text-center mb-14">
+
+      <p class="text-xs tracking-widest uppercase text-gray-500 mb-4">
+        Industry Insights
+      </p>
+
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-semibold
+                 text-[#2C2E39] leading-tight mb-6">
+        {{ article.title }}
+      </h1>
+
+      <p class="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto mb-6 leading-relaxed">
+        {{ article.summary }}
+      </p>
+
+      <div class="flex flex-wrap justify-center items-center gap-4
+                  text-sm text-gray-500">
+        <span>AI-Solutions Editorial Team</span>
+        <span class="hidden sm:inline w-1 h-1 rounded-full bg-gray-400"></span>
+        <span>{{ article.created_at|date:"d F Y" }}</span>
+        <span class="hidden sm:inline w-1 h-1 rounded-full bg-gray-400"></span>
+        <span>5 min read</span>
+      </div>
+    </header>
+
+    <!-- Featured Image -->
+    {% if article.image %}
+    <figure class="mb-16">
+      <img src="{{ article.image.url }}"
+           alt="{{ article.title }}"
+           class="w-full h-64 sm:h-80 md:h-[420px]
+                  object-cover object-center
+                  rounded-2xl shadow-sm">
+    </figure>
+    {% endif %}
+
+    <!-- Article Content -->
+    <article
+      class="max-w-none text-[#2C2E39]
+             leading-[1.85]
+             text-[1.05rem]
+             space-y-8
+             text-justify">
+
+      {{ article.content|linebreaks }}
+
+    </article>
+
+    <!-- Footer -->
+    <hr class="my-16 border-gray-200">
+
+    <div class="flex flex-col sm:flex-row justify-between items-center gap-6">
+      <a href="{% url 'articles' %}"
+         class="inline-flex items-center gap-2 text-sm text-gray-600
+                hover:text-[#2C2E39] transition">
+        <i class="bi bi-arrow-left"></i> Back to Articles
+      </a>
+
+      <p class="text-xs text-gray-500">
+        © AI-Solutions · Editorial Content
+      </p>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

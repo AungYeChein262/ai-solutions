@@ -1,0 +1,353 @@
+{% extends "website/base.html" %}
+{% block title %}Home | AI-Solutions{% endblock %}
+
+{% block content %}
+
+<!-- ================= HOME PAGE SCROLL ANIMATION (LOCAL ONLY) ================= -->
+<style>
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s ease-out;
+  }
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const reveals = document.querySelectorAll(".reveal");
+
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("active");
+          } else {
+            entry.target.classList.remove("active");
+          }
+        });
+      },
+      {
+        threshold: 0.2
+      }
+    );
+
+    reveals.forEach(el => observer.observe(el));
+  });
+</script>
+
+
+<!-- ================= HERO SECTION ================= -->
+<div
+  class="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]
+         w-screen h-[320px] sm:h-[360px] md:h-[420px]
+         bg-cover bg-center -mt-0"
+  style="background-image: url('https://images.unsplash.com/photo-1498050108023-c5249f4df085');"
+>
+  <div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center">
+    <div class="max-w-5xl text-center px-4 sm:px-6">
+
+      <span class="text-xs sm:text-sm tracking-widest text-yellow-400 block mb-2">
+        ABOUT US
+      </span>
+
+      <h1 class="text-2xl sm:text-3xl md:text-5xl lg:text-6xl
+                 font-bold text-white leading-tight">
+        We Build Intelligent<br>
+        Software Systems
+      </h1>
+
+      <p class="mt-4 text-xs sm:text-sm md:text-lg text-gray-200">
+        Secure • Scalable • Industry-Ready Solutions
+      </p>
+
+      <a href="{% url 'contact' %}"
+         class="inline-block mt-6 bg-blue-600 hover:bg-blue-700
+                text-white px-5 py-3 rounded-lg transition text-sm">
+        Get in Touch
+      </a>
+
+    </div>
+  </div>
+</div>
+
+<!-- ================= ABOUT / VALUES ================= -->
+<section class="bg-orange-50 pt-20 pb-0 ">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 pb-16 ">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
+      <div>
+        <span class="text-sm font-semibold text-orange-500">
+          WHAT WE STAND FOR
+        </span>
+        <h2 class="mt-4 text-2xl sm:text-3xl md:text-4xl
+                   font-bold text-green-900">
+          We deliver secure,<br class="hidden md:block">
+          scalable software.
+        </h2>
+      </div>
+
+      <div>
+        <h3 class="text-lg md:text-xl font-semibold text-green-900 mb-4">
+          We’re Making a Difference
+        </h3>
+        <p class="text-gray-700 text-sm md:text-base leading-relaxed">
+          At AI-Solutions, we specialise in designing and delivering modern, web-based software systems that address real-world business challenges. Our solutions are built with a strong focus on security, scalability, and usability, enabling organisations to manage customer enquiries, digital content, and administrative operations efficiently. By combining technical expertise with a user-centred approach, we help businesses improve workflows, enhance engagement, and support long-term growth.
+        </p>
+      </div>
+    </div>
+
+    <!-- ================= SOLUTIONS PREVIEW ================= -->
+    <div class="mb-20 ">
+      <h3 class="text-xl sm:text-2xl font-bold text-green-900 mb-8 text-center">
+  Our Core Solutions
+</h3>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+  <div class="bg-[#F5F5F2]
+ p-6 rounded-xl shadow-sm text-center">
+    <h4 class="font-semibold text-lg text-[#2C2E39]">
+      Custom Software Development
+    </h4>
+    <p class="text-sm text-gray-600 mt-2">
+      Tailored software solutions designed to meet specific business needs
+      and improve operational efficiency.
+    </p>
+  </div>
+
+  <div  class="bg-[#F5F5F2]
+ p-6 rounded-xl shadow-sm text-center">
+    <h4 class="font-semibold text-lg text-[#2C2E39]">
+      Web Application Development
+    </h4>
+    <p class="text-sm text-gray-600 mt-2">
+      Secure, scalable, and responsive web applications built using modern
+      technologies.
+    </p>
+  </div>
+
+  <div  class="bg-[#F5F5F2]
+ p-6 rounded-xl shadow-sm text-center">
+    <h4 class="font-semibold text-lg text-[#2C2E39]">
+      Cloud & System Integration
+    </h4>
+    <p class="text-sm text-gray-600 mt-2">
+      Seamless integration of cloud services and enterprise systems to
+      support connected workflows.
+    </p>
+  </div>
+
+  <div  class="bg-[#F5F5F2]
+ p-6 rounded-xl shadow-sm text-center">
+    <h4 class="font-semibold text-lg text-[#2C2E39]">
+      Data Management Solutions
+    </h4>
+    <p class="text-sm text-gray-600 mt-2">
+      Reliable data storage, processing, and analytics to support informed
+      decision-making.
+    </p>
+  </div>
+
+  <div  class="bg-[#F5F5F2]
+ p-6 rounded-xl shadow-sm text-center">
+    <h4 class="font-semibold text-lg text-[#2C2E39]">
+      Cybersecurity Solutions
+    </h4>
+    <p class="text-sm text-gray-600 mt-2">
+      Authentication, access control, and data protection strategies to
+      safeguard systems and users.
+    </p>
+  </div>
+
+  <div  class="bg-[#F5F5F2]
+ p-6 rounded-xl shadow-sm text-center">
+    <h4 class="font-semibold text-lg text-[#2C2E39]">
+      System Maintenance & Support
+    </h4>
+    <p class="text-sm text-gray-600 mt-2">
+      Ongoing monitoring, updates, and technical support to ensure long-term
+      system reliability.
+    </p>
+  </div>
+
+</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= IMAGE + TEXT SECTION ================= -->
+<section class="bg-#DCD9CD py-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6
+              grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+
+    <div>
+      <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+        Built for Modern Organisations
+      </h3>
+      <p class="text-gray-600 text-sm md:text-base leading-relaxed">
+        Our systems are designed to be maintainable, secure, and scalable,
+        delivering long-term value to businesses.
+      </p>
+    </div>
+
+    <div>
+      <img
+        src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d"
+        alt="Team collaboration"
+        class="rounded-xl w-full object-cover reveal"
+      >
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= IMAGE + TEXT SECTION (REVERSED) ================= -->
+<section class="bg-orange-50 py-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6
+              grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+
+    <div class="order-1 md:order-none">
+      <img
+        src="https://images.unsplash.com/photo-1522071820081-009f0129c71c"
+        alt="Office environment"
+        class="rounded-xl w-full object-cover reveal"
+      >
+    </div>
+
+    <div>
+      <h3 class="text-2xl sm:text-3xl font-bold text-green-900 mb-4">
+        Designed With Purpose
+      </h3>
+      <p class="text-gray-700 text-sm md:text-base leading-relaxed">
+        We focus on creating software that improves operational efficiency
+        and supports digital transformation.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= MISSION & VISION ================= -->
+<section class="bg-orange-50 pt-0 pb-0">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 pb-16
+              grid grid-cols-1 md:grid-cols-2 gap-12">
+
+    <div>
+      <span class="text-sm font-semibold text-orange-500">
+        OUR MISSION
+      </span>
+      <div class="mt-4 bg-[#F5F5F2]
+ p-8 rounded-xl shadow-sm">
+        <h4 class="font-semibold mb-2">Build reliable solutions</h4>
+        <p class="text-sm text-gray-600">
+          To develop dependable software systems that meet real-world
+          business needs.
+        </p>
+      </div>
+    </div>
+
+    <div>
+      <span class="text-sm font-semibold text-orange-500">
+        OUR VISION
+      </span>
+      <div class="mt-4 bg-[#F5F5F2]
+ p-8 rounded-xl shadow-sm">
+        <h4 class="font-semibold mb-2">
+          Empower businesses with technology
+        </h4>
+        <p class="text-sm text-gray-600">
+          Creating secure, scalable systems using modern practices.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= WHAT WE OFFER (ADDED BELOW ORIGINAL CONTENT) ================= -->
+<section class="bg-[#F5F5F2]
+ py-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 text-center mb-4">
+      What We Offer
+    </h2>
+
+    <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12 text-sm md:text-base">
+      Our services are designed to support organisations throughout their digital journey.
+      From secure software development to content and event management, AI-Solutions provides
+      integrated solutions tailored to modern business needs.
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+      <!-- Offer 1 -->
+      <div class="border rounded-xl p-8 bg-gray-50 reveal">
+        <h3 class="text-lg font-semibold mb-3">
+          Secure Software Solutions
+        </h3>
+        <p class="text-sm text-gray-600 mb-6">
+          We develop robust and scalable web-based systems tailored to organisational requirements,
+          focusing on security, performance, and maintainability.
+        </p>
+        <a href="{% url 'solutions' %}" class="text-blue-600 font-medium">
+          Explore Solutions →
+        </a>
+      </div>
+
+      <!-- Offer 2 -->
+      <div class="border rounded-xl p-8 bg-gray-50 reveal">
+        <h3 class="text-lg font-semibold mb-3">
+          Articles & Industry Insights
+        </h3>
+        <p class="text-sm text-gray-600 mb-6">
+          Access curated articles covering software development practices, system security,
+          and emerging technologies to support learning and innovation.
+        </p>
+        <a href="{% url 'articles' %}" class="text-blue-600 font-medium">
+          View Articles →
+        </a>
+      </div>
+
+      <!-- Offer 3 -->
+      <div class="border rounded-xl p-8 bg-gray-50 reveal">
+        <h3 class="text-lg font-semibold mb-3">
+          Events & Activities
+        </h3>
+        <p class="text-sm text-gray-600 mb-6">
+          Discover upcoming workshops, product launches, and industry events designed to encourage
+          collaboration and professional engagement.
+        </p>
+        <a href="{% url 'events' %}" class="text-blue-600 font-medium">
+          View Events →
+        </a>
+      </div>
+
+      <!-- Offer 4 -->
+      <div class="border rounded-xl p-8 bg-gray-50 reveal">
+        <h3 class="text-lg font-semibold mb-3">
+          Customer Enquiries & Support
+        </h3>
+        <p class="text-sm text-gray-600 mb-6">
+          Submit your project requirements through our enquiry system and receive efficient,
+          accurate responses tailored to your needs.
+        </p>
+        <a href="{% url 'contact' %}" class="text-blue-600 font-medium">
+          Contact Us →
+        </a>
+      </div>
+
+      
+
+    </div>
+  </div>
+</section>
+
+
+{% endblock %}

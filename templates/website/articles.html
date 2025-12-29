@@ -1,0 +1,370 @@
+{% extends "website/base.html" %}
+{% block title %}Articles | AI-Solutions{% endblock %}
+
+{% block content %}
+
+<!-- ================= FULL-WIDTH HERO ================= -->
+<section class="bg-[#FFF7ED] pb-12">
+  <div class="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
+    <div class="relative h-[420px] sm:h-[480px] md:h-[520px]">
+      <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c"
+           class="absolute inset-0 w-full h-full object-cover"
+           alt="Featured article">
+
+      <div class="absolute inset-0 bg-black/45 flex items-center">
+        <div class="max-w-7xl mx-auto px-6 w-full">
+          <div class="max-w-xl">
+
+            <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
+              Technology for Smarter Digital Systems
+            </h1>
+
+            <p class="text-sm sm:text-base text-white/90 mb-6">
+              Insights on how modern software solutions are transforming
+              operational efficiency, data management, and system security.
+            </p>
+
+            <!-- SEARCH + FILTER -->
+            <div class="flex items-center gap-3 w-full">
+
+              <input type="text"
+                     id="searchInput"
+                     placeholder="Search articles..."
+                     class="flex-1 min-w-0 px-5 py-3 rounded-full text-sm outline-none">
+
+              <div class="relative shrink-0">
+                <button id="filterBtn"
+                        type="button"
+                        class="flex items-center gap-2 px-4 py-3 rounded-full
+                               bg-[#F5F5F2]
+ text-sm text-[#2C2E39]
+                               shadow-sm hover:bg-[#E6E6FA] transition">
+                  <span id="filterLabel">Newest</span>
+                  <i class="bi bi-chevron-down text-xs"></i>
+                </button>
+
+                <div id="filterMenu"
+                     class="absolute right-0 mt-2 w-40 bg-[#F5F5F2]
+ rounded-2xl
+                            shadow-lg opacity-0 translate-y-2 scale-95
+                            pointer-events-none transition-all duration-200
+                            origin-top-right z-50 overflow-hidden">
+
+                  <button class="filter-option w-full text-left px-4 py-3 text-sm hover:bg-gray-100"
+                          data-value="newest">
+                    Newest first
+                  </button>
+
+                  <button class="filter-option w-full text-left px-4 py-3 text-sm hover:bg-gray-100"
+                          data-value="oldest">
+                    Oldest first
+                  </button>
+
+                </div>
+              </div>
+            </div>
+            <!-- END SEARCH + FILTER -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ARTICLES GRID ================= -->
+<section class="bg-[#FFF7ED] pb-24">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <h2 class="text-2xl font-semibold text-[#2C2E39] mb-10">
+      Latest Articles
+    </h2>
+
+    <div id="articlesGrid"
+         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+
+      <!-- ARTICLE 1 (NEWEST + LINKED) -->
+      <a href="{% url 'article_custom_software_trends' %}"
+         class="article-item block group"
+         data-title="Custom Software Development Trends"
+         data-date="2026-02-01">
+
+        <article class="bg-[#F5F5F2]
+ rounded-2xl overflow-hidden shadow-sm
+                        flex flex-col h-full
+                        transition-all duration-300 hover:-translate-y-1
+                        hover:shadow-lg cursor-pointer">
+
+          <div class="overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c"
+                 class="w-full h-48 object-cover transition-transform
+                        duration-300 group-hover:scale-105" alt="">
+          </div>
+
+          <div class="p-6">
+            <p class="text-xs text-gray-500 mb-2">1 Feb 2026</p>
+            <h3 class="font-semibold text-lg text-[#2C2E39] mb-2">
+              Custom Software Development Trends
+            </h3>
+            <p class="text-sm text-gray-600">
+              Exploring how tailored software solutions are evolving to meet
+              modern business requirements.
+            </p>
+          </div>
+
+        </article>
+      </a>
+
+      <!-- ARTICLE 2 -->
+      <a href="#"
+         class="article-item block"
+         data-title="DevOps in Practice"
+         data-date="2026-01-15">
+
+        <article class="bg-[#F5F5F2]
+ rounded-2xl overflow-hidden shadow-sm
+                        flex flex-col h-full
+                        transition-all duration-300 hover:-translate-y-1
+                        hover:shadow-lg cursor-pointer">
+
+          <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c"
+               class="w-full h-48 object-cover" alt="">
+
+          <div class="p-6">
+            <p class="text-xs text-gray-500 mb-2">15 Jan 2026</p>
+            <h3 class="font-semibold text-lg mb-2">DevOps in Practice</h3>
+            <p class="text-sm text-gray-600">
+              How CI/CD pipelines improve collaboration and delivery speed.
+            </p>
+          </div>
+
+        </article>
+      </a>
+
+      <!-- ARTICLE 3 -->
+      <a href="#"
+         class="article-item block"
+         data-title="Designing Scalable Cloud Architectures"
+         data-date="2026-01-10">
+
+        <article class="bg-[#F5F5F2]
+ rounded-2xl overflow-hidden shadow-sm flex flex-col h-full
+                        transition-all duration-300 hover:-translate-y-1
+                        hover:shadow-lg cursor-pointer">
+
+          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085"
+               class="w-full h-48 object-cover" alt="">
+
+          <div class="p-6">
+            <p class="text-xs text-gray-500 mb-2">10 Jan 2026</p>
+            <h3 class="font-semibold text-lg mb-2">
+              Designing Scalable Cloud Architectures
+            </h3>
+            <p class="text-sm text-gray-600">
+              Principles for building secure and scalable cloud systems.
+            </p>
+          </div>
+
+        </article>
+      </a>
+
+      <!-- ARTICLE 4 -->
+      <a href="#"
+         class="article-item block"
+         data-title="Improving UX Through Data-Driven Design"
+         data-date="2026-01-03">
+
+        <article class="bg-[#F5F5F2]
+ rounded-2xl overflow-hidden shadow-sm flex flex-col h-full
+                        transition-all duration-300 hover:-translate-y-1
+                        hover:shadow-lg cursor-pointer">
+
+          <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984"
+               class="w-full h-48 object-cover" alt="">
+
+          <div class="p-6">
+            <p class="text-xs text-gray-500 mb-2">3 Jan 2026</p>
+            <h3 class="font-semibold text-lg mb-2">
+              Improving UX Through Data-Driven Design
+            </h3>
+            <p class="text-sm text-gray-600">
+              Using analytics to guide better interface decisions.
+            </p>
+          </div>
+
+        </article>
+      </a>
+
+      <a href="#"
+   class="article-item block"
+   data-title="Secure Authentication in Modern Applications"
+   data-date="2025-12-28">
+
+  <article class="bg-[#F5F5F2]
+ rounded-2xl overflow-hidden shadow-sm flex flex-col h-full
+                  transition-all duration-300 hover:-translate-y-1
+                  hover:shadow-lg cursor-pointer">
+
+    <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c"
+         class="w-full h-48 object-cover" alt="">
+
+    <div class="p-6">
+      <p class="text-xs text-gray-500 mb-2">28 Dec 2025</p>
+      <h3 class="font-semibold text-lg mb-2">
+        Secure Authentication in Modern Applications
+      </h3>
+      <p class="text-sm text-gray-600">
+        An overview of authentication strategies including OAuth,
+        multi-factor authentication, and role-based access control.
+      </p>
+    </div>
+
+  </article>
+</a>
+
+<a href="#"
+   class="article-item block"
+   data-title="Automating Business Workflows with AI"
+   data-date="2025-12-18">
+
+  <article class="bg-[#F5F5F2]
+ rounded-2xl overflow-hidden shadow-sm flex flex-col h-full
+                  transition-all duration-300 hover:-translate-y-1
+                  hover:shadow-lg cursor-pointer">
+
+    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995"
+         class="w-full h-48 object-cover" alt="">
+
+    <div class="p-6">
+      <p class="text-xs text-gray-500 mb-2">18 Dec 2025</p>
+      <h3 class="font-semibold text-lg mb-2">
+        Automating Business Workflows with AI
+      </h3>
+      <p class="text-sm text-gray-600">
+        Exploring how artificial intelligence can streamline repetitive
+        business processes and improve operational efficiency.
+      </p>
+    </div>
+
+  </article>
+</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        {% for article in articles %}
+<a href="{% url 'article_detail' article.slug %}"
+   class="article-item block group"
+   data-title="{{ article.title }}"
+   data-date="{{ article.created_at|date:'Y-m-d' }}">
+
+  <article class="bg-[#F5F5F2] rounded-2xl overflow-hidden shadow-sm
+                  flex flex-col h-full
+                  transition-all duration-300 hover:-translate-y-1
+                  hover:shadow-lg cursor-pointer">
+
+    {% if article.image %}
+    <div class="overflow-hidden">
+      <img src="{{ article.image.url }}"
+           class="w-full h-48 object-cover transition-transform
+                  duration-300 group-hover:scale-105"
+           alt="{{ article.title }}">
+    </div>
+    {% endif %}
+
+    <div class="p-6">
+      <p class="text-xs text-gray-500 mb-2">
+        {{ article.created_at|date:"d M Y" }}
+      </p>
+
+      <h3 class="font-semibold text-lg text-[#2C2E39] mb-2">
+        {{ article.title }}
+      </h3>
+
+      <p class="text-sm text-gray-600">
+        {{ article.summary }}
+      </p>
+    </div>
+
+  </article>
+</a>
+
+      
+
+
+
+
+    </div>
+  </div>
+
+
+{% empty %}
+<p class="text-gray-500">No articles available.</p>
+{% endfor %}
+
+</section>
+
+<!-- ================= SCRIPT ================= -->
+<script>
+  const searchInput = document.getElementById("searchInput");
+  const filterBtn = document.getElementById("filterBtn");
+  const filterMenu = document.getElementById("filterMenu");
+  const filterLabel = document.getElementById("filterLabel");
+  const filterOptions = document.querySelectorAll(".filter-option");
+
+  const articlesGrid = document.getElementById("articlesGrid");
+  const allArticles = Array.from(document.querySelectorAll(".article-item"));
+
+  let currentFilter = "newest";
+
+  function updateArticles() {
+    const q = searchInput.value.toLowerCase();
+
+    let filtered = allArticles.filter(item =>
+      item.dataset.title.toLowerCase().includes(q)
+    );
+
+    filtered.sort((a, b) => {
+      const da = new Date(a.dataset.date);
+      const db = new Date(b.dataset.date);
+      return currentFilter === "newest" ? db - da : da - db;
+    });
+
+    articlesGrid.innerHTML = "";
+    filtered.forEach(item => articlesGrid.appendChild(item));
+  }
+
+  filterBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    filterMenu.classList.toggle("opacity-0");
+    filterMenu.classList.toggle("pointer-events-none");
+    filterMenu.classList.toggle("translate-y-2");
+    filterMenu.classList.toggle("scale-95");
+  });
+
+  filterOptions.forEach(opt => {
+    opt.addEventListener("click", () => {
+      currentFilter = opt.dataset.value;
+      filterLabel.textContent = currentFilter === "newest" ? "Newest" : "Oldest";
+      updateArticles();
+    });
+  });
+
+  document.addEventListener("click", () => {
+    filterMenu.classList.add("opacity-0", "pointer-events-none", "translate-y-2", "scale-95");
+  });
+
+  searchInput.addEventListener("input", updateArticles);
+  updateArticles();
+</script>
+
+{% endblock %}

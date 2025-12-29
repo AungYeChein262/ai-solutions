@@ -1,0 +1,205 @@
+{% extends "website/base.html" %}
+{% block title %}Solutions | AI-Solutions{% endblock %}
+
+{% block content %}
+<style>
+  .solution-image {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .solution-image.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+
+<!-- ================= HERO / INTRO ================= -->
+<section class="bg-[#FFF7ED] pt-20 pb-16">
+  <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+
+    <!-- Text -->
+    <div>
+      <p class="uppercase tracking-widest text-sm text-[#A2574F] mb-3">
+        Our Solutions
+      </p>
+
+      <h1 class="text-4xl lg:text-5xl font-bold text-[#2C2E39] leading-tight mb-5">
+        Intelligent software solutions<br>
+        built for real-world needs.
+      </h1>
+
+      <p class="text-gray-600 text-lg leading-relaxed mb-6">
+        We design and deliver secure, scalable software systems that help
+        organisations improve efficiency, manage data effectively, and
+        support long-term digital growth.
+      </p>
+
+      <a href="/contact/"
+         class="inline-block bg-[#A2574F] text-white
+                hover:bg-[#8C463F] transition
+                px-8 py-3 rounded-full font-medium">
+        Discuss your project
+      </a>
+    </div>
+
+    <!-- Images (larger, tighter) -->
+    <!-- Image showcase (preferred layout) -->
+<div class="grid grid-cols-2 gap-6">
+  <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d"
+       class="solution-image rounded-2xl object-cover w-full h-40 sm:h-48 md:h-56"
+       alt=""
+       loading="lazy">
+
+  <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786"
+       class="solution-image rounded-2xl object-cover w-full h-40 sm:h-48 md:h-56"
+       alt=""
+       loading="lazy">
+  <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c"
+       class="solution-image rounded-2xl object-cover w-full h-40 sm:h-48 md:h-56 col-span-2"
+       alt=""
+       loading="lazy">
+</div>
+
+
+</section>
+
+<!-- ================= WHAT WE OFFER (SAGE BACKGROUND) ================= -->
+<section class="bg-[#E6EFEA] pt-16 pb-20">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <!-- Section header (closer spacing) -->
+    <h2 class="text-3xl font-semibold text-[#2C2E39] mb-10">
+      What we offer
+    </h2>
+
+    <!-- Solutions grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      <!-- Card -->
+      <a href="{% url 'solution_custom_software' %}"
+         class="bg-[#F5F5F2]
+ rounded-2xl p-7
+                hover:bg-[#E6E6FA] transition shadow-sm">
+
+        <i class="bi bi-code-slash text-3xl text-[#A2574F]"></i>
+
+        <h3 class="mt-4 text-xl font-semibold text-[#2C2E39]">
+          Custom Software Development
+        </h3>
+
+        <p class="mt-2 text-gray-600 text-sm leading-relaxed">
+          Bespoke software solutions tailored to specific business requirements,
+          designed to improve operational efficiency and scalability.
+        </p>
+      </a>
+
+      <a href="/solutions/web-development/"
+         class="bg-[#F5F5F2]
+ rounded-2xl p-7 hover:bg-[#E6E6FA] transition shadow-sm">
+
+        <i class="bi bi-window text-3xl text-[#A2574F]"></i>
+
+        <h3 class="mt-4 text-xl font-semibold text-[#2C2E39]">
+          Web Application Development
+        </h3>
+
+        <p class="mt-2 text-gray-600 text-sm leading-relaxed">
+          Secure, responsive web applications built using modern technologies
+          and user-centred design principles.
+        </p>
+      </a>
+
+      <a href="/solutions/cloud-integration/"
+         class="bg-[#F5F5F2]
+ rounded-2xl p-7 hover:bg-[#E6E6FA] transition shadow-sm">
+
+        <i class="bi bi-cloud text-3xl text-[#A2574F]"></i>
+
+        <h3 class="mt-4 text-xl font-semibold text-[#2C2E39]">
+          Cloud & System Integration
+        </h3>
+
+        <p class="mt-2 text-gray-600 text-sm leading-relaxed">
+          Seamless integration of cloud services and enterprise systems to
+          streamline workflows and enhance reliability.
+        </p>
+      </a>
+
+      <a href="/solutions/data-management/"
+         class="bg-[#F5F5F2]
+ rounded-2xl p-7 hover:bg-[#E6E6FA] transition shadow-sm">
+
+        <i class="bi bi-database text-3xl text-[#A2574F]"></i>
+
+        <h3 class="mt-4 text-xl font-semibold text-[#2C2E39]">
+          Data Management Solutions
+        </h3>
+
+        <p class="mt-2 text-gray-600 text-sm leading-relaxed">
+          Structured data storage, processing, and analytics solutions to
+          support informed decision-making.
+        </p>
+      </a>
+
+      <a href="/solutions/cybersecurity/"
+         class="bg-[#F5F5F2]
+ rounded-2xl p-7 hover:bg-[#E6E6FA] transition shadow-sm">
+
+        <i class="bi bi-shield-lock text-3xl text-[#A2574F]"></i>
+
+        <h3 class="mt-4 text-xl font-semibold text-[#2C2E39]">
+          Cybersecurity Solutions
+        </h3>
+
+        <p class="mt-2 text-gray-600 text-sm leading-relaxed">
+          Authentication, access control, and data protection strategies to
+          safeguard systems and user information.
+        </p>
+      </a>
+
+      <a href="/solutions/support/"
+         class="bg-[#F5F5F2]
+ rounded-2xl p-7 hover:bg-[#E6E6FA] transition shadow-sm">
+
+        <i class="bi bi-tools text-3xl text-[#A2574F]"></i>
+
+        <h3 class="mt-4 text-xl font-semibold text-[#2C2E39]">
+          System Maintenance & Support
+        </h3>
+
+        <p class="mt-2 text-gray-600 text-sm leading-relaxed">
+          Continuous monitoring, maintenance, and updates to ensure long-term
+          system stability and performance.
+        </p>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const images = document.querySelectorAll(".solution-image");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+          } else {
+            entry.target.classList.remove("show");
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    images.forEach(img => observer.observe(img));
+  });
+</script>
+
+
+{% endblock %}
